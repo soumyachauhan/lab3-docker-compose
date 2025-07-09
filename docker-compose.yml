@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    image: soumyachauhan/backend:latest
+    build: ./backend
+    ports:
+      - "5001:5000"
+    volumes:
+      - shared-data:/logs
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  logger:
+    build: ./logger
+    depends_on:
+      - backend
+    volumes:
+      - shared-data:/logs
+
+volumes:
+  shared-data:
